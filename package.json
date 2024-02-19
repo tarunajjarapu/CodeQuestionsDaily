@@ -1,0 +1,17 @@
+{
+  "name": "codequestionsdaily",
+  "version": "1.0.0",
+  "description": "Full stack website for daily coding questions",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tarun Ajjarapu",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.4",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.3"
+  }
+}
