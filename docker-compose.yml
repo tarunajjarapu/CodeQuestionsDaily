@@ -2,8 +2,6 @@ version: '3.8'
 services:
   backend:
     build: ./
-    ports:
-      - "5001:5000"
     environment:
       - NODE_ENV=production
     depends_on:
@@ -11,8 +9,6 @@ services:
 
   frontend:
     build: ./frontend
-    ports:
-      - "3000:3000"
     environment:
       - NODE_ENV=production
 
