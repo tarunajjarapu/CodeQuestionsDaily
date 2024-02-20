@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel')
-const Info = require('../models/informationModel')
+const Info = require('../models/streakModel')
 const asyncHandler = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 
@@ -24,9 +24,9 @@ const loginUser =  asyncHandler(async (req, res) => {
 })
 
 const registerUser = asyncHandler( async (req, res) => {
-    const { name, email, password, phoneNumber } = req.body
+    const { name, email, password } = req.body
     
-    if (!name || !email || !password || !phoneNumber) {
+    if (!name || !email || !password) {
         res.status(400)
         throw new Error('Please add all fields')
     }
@@ -47,11 +47,15 @@ const registerUser = asyncHandler( async (req, res) => {
     const user = await User.create({
         name,
         email,
-        phoneNumber,
         password: hashedPassword
     })
+
+    const info = Info.create({
+        user: user,
+        streak: 0
+    })
     
-    if (user) {
+    if (user && info) {
         res.status(201).json({
             _id: user.id,
             name: user.name,

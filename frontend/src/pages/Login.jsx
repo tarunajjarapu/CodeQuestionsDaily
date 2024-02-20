@@ -24,7 +24,7 @@ function Login() {
                 <h1>
                     <FaSignInAlt />
                 </h1>
-                <p>Login</p>
+                <p style={{ fontSize: '24px', fontFamily: 'Arial, sans-serif' }}>Login</p>
             </section>
             <section className="form mt-3">
                 <div className="container">

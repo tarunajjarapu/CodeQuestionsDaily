@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
 
-const ScoreInformation = new mongoose.Schema({
+const StreakInformation = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
         ref: 'User'
     },
-    score: { 
-        type: Number
-    },
     streak:{
         type: Number
     }
-  }, {collection: "ScoreInformation"});
+  }, {collection: "StreakInformation"});
 
-module.exports = mongoose.model('Score', ScoreInformation);
+module.exports = mongoose.model('Streak', StreakInformation);

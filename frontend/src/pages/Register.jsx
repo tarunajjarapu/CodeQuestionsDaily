@@ -26,7 +26,7 @@ function Register() {
                 <h1>
                     <FaUser />
                 </h1>
-                <p>Please create an account</p>
+                <p style={{ fontSize: '24px', fontFamily: 'Arial, sans-serif' }}>Please create an account</p>
             </section>
             <section className="form mt-3">
                 <div className="container">
