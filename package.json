@@ -4,7 +4,8 @@
   "description": "Full stack website for daily coding questions",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "client": "npm start --prefix frontend"
   },
   "author": "Tarun Ajjarapu",
   "license": "MIT",
