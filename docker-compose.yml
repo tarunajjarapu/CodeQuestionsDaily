@@ -25,5 +25,5 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "5002:5000"
+      - "8000:8000"
 
