@@ -4,6 +4,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: frontend_app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
     ports:
       - "3000:3000"
     depends_on:
@@ -12,12 +18,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    container_name: backend_app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
     ports:
-      - "5001:5000"
-    depends_on:
-      - mongodb
-  mongodb:
-    image: mongo
-    ports:
-      - "27017:27017"
+      - "5002:5000"
 

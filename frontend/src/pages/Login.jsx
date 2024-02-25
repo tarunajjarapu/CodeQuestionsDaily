@@ -38,12 +38,12 @@ function Login() {
                                         id="email"
                                         name="email"
                                         value={email}
-                                        placeholder="Enter your email"
+                                        placeholder="Please enter your email"
                                         onChange={onChange}
                                     />
                                 </div>
                                 <div className="form-group mb-3">
-                                    <input
+                                    <input  
                                         type="password"
                                         className="form-control"
                                         id="password"
