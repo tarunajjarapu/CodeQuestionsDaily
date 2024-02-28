@@ -10,3 +10,13 @@ services:
       - "8000:8000"
     env_file:
       - ./.env
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=tajj
+      - MONGO_INITDB_ROOT_PASSWORD=horsejumprightback
+    volumes:
+      - mongo-db:/data/db
+
+volumes:
+  mongo-db:
