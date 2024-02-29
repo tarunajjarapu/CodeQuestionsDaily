@@ -22,4 +22,8 @@ services:
     environment:
       - NODE_ENV=development
     command: npm run dev
+  mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=tajj
+      - MONGO_INITDB_ROOT_PASSWORD=horsejumprightback
     
