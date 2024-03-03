@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel')
-const Info = require('../models/streakModel')
 const asyncHandler = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 
@@ -15,6 +14,7 @@ const loginUser =  asyncHandler(async (req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
+            streak: user.streak,
             token: generateToken(user._id)
         })
     } else {
@@ -49,21 +49,15 @@ const registerUser = asyncHandler( async (req, res) => {
         email,
         password: hashedPassword
     })
-
-    const info = Info.create({
-        user: user,
-        streak: 0
-    })
     
-    if (user && info) {
+    if (user) {
         res.status(201).json({
             _id: user.id,
             name: user.name,
             email: user.email,
+            streak: 0,
             token: generateToken(user._id)
         })
-    } else if (info) {
-        await user.deleteOne()
     } else {
         res.status(400)
         throw new Error('Invalid user data')

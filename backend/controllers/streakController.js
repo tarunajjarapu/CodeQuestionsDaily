@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler')
-const Info = require('../models/streakModel')
+const Info = require('../models/userModel')
 
 const getStreak = asyncHandler(async (req, res) => {
-    const score = await Info.find({ user: req.user.id})
+    const score = await Info.find({ _id: req.user.id})
 
     if (!score) {
         res.status(400)
@@ -13,7 +13,7 @@ const getStreak = asyncHandler(async (req, res) => {
 })
 
 const updateStreak = asyncHandler(async (req, res) => {
-    const info = await Info.findOne({user: req.user.id})
+    const info = await Info.findOne({_id: req.user.id})
 
     if (!info) {
         res.status(400)
@@ -27,12 +27,12 @@ const updateStreak = asyncHandler(async (req, res) => {
     }
 
     // Make sure the logged in user matches the goal user
-    if (info.user.toString() !== req.user.id) {
+    if (info._id.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')
     }
 
-    const updatedInfo = await Info.findOneAndUpdate({user: req.user.id}, { $set: req.body }, {new: true})
+    const updatedInfo = await Info.findOneAndUpdate({_id: req.user.id}, { $set: req.body }, {new: true})
 
     res.status(201).json(updatedInfo)
 })
