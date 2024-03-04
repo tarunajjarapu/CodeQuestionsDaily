@@ -8,7 +8,11 @@ const QuestionInfo = new mongoose.Schema({
     answer:{
         type: String,
         require: true
-    }
+    },
+    choices: [{
+        type: String,
+        require: true
+    }]
   }, {collection: "QuestionInfo"});
 
 module.exports = mongoose.model('Question', QuestionInfo);

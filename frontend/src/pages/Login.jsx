@@ -3,7 +3,7 @@ import { FaSignInAlt } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { login, reset } from '../features/auth/authSlice'
+import { login, chat, reset } from '../features/auth/authSlice'
 import Spinner from '../components/spinner';
 
 function Login() {
@@ -44,6 +44,10 @@ function Login() {
         }
         dispatch(login(userData))
     };
+    
+    const onPress = (e) => {
+        dispatch(chat())
+    }
 
     if (isLoading) {
         <Spinner />
@@ -73,6 +77,9 @@ function Login() {
                                         onChange={onChange}
                                     />
                                 </div>
+                                <button onClick={onPress}>
+                                    click me
+                                </button>
                                 <div className="form-group mb-3">
                                     <input  
                                         type="password"

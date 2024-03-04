@@ -29,6 +29,15 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
     }
 })
 
+export const chat = createAsyncThunk('auth/chat', async (user, thunkAPI) => {
+    try {
+        return await authService.chat(user)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const logout = createAsyncThunk('auth/logout', async () => {
     await authService.logout()
 })

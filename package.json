@@ -11,6 +11,7 @@
   "author": "Tarun Ajjarapu",
   "license": "MIT",
   "dependencies": {
+    "@google/generative-ai": "^0.2.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
