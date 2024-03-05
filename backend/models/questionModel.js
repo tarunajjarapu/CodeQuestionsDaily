@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const QuestionInfo = new mongoose.Schema({
-    question:{
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true
+    },
+    question: {
         type: String,
         require: true
     },
-    answer:{
+    answer: {
         type: String,
         require: true
     },

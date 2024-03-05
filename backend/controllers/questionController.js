@@ -3,20 +3,32 @@ const Info = require('../models/questionModel')
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const getQuestion = asyncHandler(async (req, res) => {
-    const count = await Info.countDocuments();
+    if (!req.user) {
+        res.status(401).json({ message: 'User not authenticated' });
+        return;
+    }
+    const count = await Info.countDocuments({ user: req.user.id });
+    if (count === 0) {
+        res.status(404).json({ message: 'No questions found for this user' });
+        return;
+    }
     const random = Math.floor(Math.random() * count);
-    const question = await Info.findOne().skip(random);
+    const question = await Info.findOne({ user: req.user.id }).skip(random);
 
     if (!question) {
-        res.status(401)
-        throw new Error('Questions not found')
+        res.status(404).json({ message: 'Question not found' });
+    } else {
+        res.status(200).json(question);
     }
-
-    res.status(200).json(question)
 })
 
 const createQuestions = asyncHandler(async (req, res) => {
     const { question } = req.body
+    const userId = req.user.id
+    if (!req.user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
     try {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -24,15 +36,13 @@ const createQuestions = asyncHandler(async (req, res) => {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = await response.text();
-        const questionBlocks = text.split('Question ').slice(1); // Remove the first empty item if any
+        const questionBlocks = text.split('Question ').slice(1);
 
-        // Arrays to hold the parsed data
         let questions = [];
         let allAnswers = [];
         let correctAnswers = [];
 
-        questionBlocks.forEach(block => {
-            // Extract the question text
+        for (let block of questionBlocks) {
             const questionParts = block.split('\n');
             let questionText = questionParts[0].substring(questionParts[0].indexOf(':') + 1).trim();
             if (questionText.startsWith("** ")) {
@@ -40,16 +50,19 @@ const createQuestions = asyncHandler(async (req, res) => {
             }
             questions.push(questionText);
 
-            // Extract the answers
-            const answers = questionParts.slice(1, 5); // Next four lines are the answers
+            const answers = questionParts.slice(1, 5);
             allAnswers.push(answers);
 
-            // Extract the correct answer
-            const correctAnswerLetter = questionParts[5].split(': ')[1]; // "Answer: X" is expected to be the part after the answers
-            // Find the correct answer text by matching the letter with the answers array
+            const correctAnswerLetter = questionParts[5].split(': ')[1];
             const correctAnswerText = answers.find(ans => ans.startsWith(correctAnswerLetter + ')')).trim();
             correctAnswers.push(correctAnswerText);
-        });
+            await Info.create({
+                user: userId,
+                question: questionText,
+                answer: correctAnswerText,
+                choices: answers
+            });
+        };
 
         const apiRes = {
             questions: questions,

@@ -77,9 +77,6 @@ function Login() {
                                         onChange={onChange}
                                     />
                                 </div>
-                                <button onClick={onPress}>
-                                    click me
-                                </button>
                                 <div className="form-group mb-3">
                                     <input  
                                         type="password"
